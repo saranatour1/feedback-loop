@@ -50,7 +50,7 @@ BREAKING CHANGE: <what callers must change>
 - The subject is imperative, lowercase and has no trailing period, and stays under 72 characters: `feat(convex): add feedback list query`.
 - Leave out `(<scope>)` when there isn't a clear area, and `!` and the footer when nothing breaks.
 - The body is optional for small changes. When present, it explains why.
-- Keep any attribution trailers your environment requires after the footer.
+- Never include Claude session links: no `Claude-Session:` trailer and no `claude.ai/code/session_...` URL. A `Co-Authored-By:` trailer is fine.
 
 ## 4. PR title
 
@@ -88,6 +88,8 @@ BREAKING CHANGE: what callers must change, and any step needed before or after m
 ```
 
 Report test results as they are. If a check fails or wasn't run, say so with the reason. Don't leave it out.
+
+Never put Claude session links (`claude.ai/code/session_...`) in a PR title or description.
 
 ## 6. Check before pushing
 
