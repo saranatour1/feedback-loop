@@ -77,7 +77,7 @@ These apply to everyone working in this repo, human or agent.
 ### Git and workflow
 
 - Never push to `main`. One feature = one branch = one PR.
-- Follow [Conventional Commits 1.0.0](https://www.conventionalcommits.org/en/v1.0.0/) for commit messages, PR titles and branch names.
+- Follow [Conventional Commits 1.0.0](https://www.conventionalcommits.org/en/v1.0.0/) for commit messages, PR titles and branch names. The `conventional-git` skill (`.claude/skills/conventional-git/`) has the step-by-step version.
 - Types: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert`. Scopes are optional and name the area, such as `convex`, `ui`, `auth` or `deps`.
 - Commit messages: `<type>(<scope>): <description>`, imperative, lowercase, no trailing period, under 72 characters (`feat(convex): add feedback list query`). Use the body to explain why. Mark breaking changes with `!` after the type or scope and a `BREAKING CHANGE:` footer.
 - PR titles use the same format as a commit subject, since they become the squash-merge commit.
