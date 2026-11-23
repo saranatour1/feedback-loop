@@ -14,12 +14,21 @@ importers:
       '@convex-dev/auth':
         specifier: ^2.1.0
         version: 2.1.0(@convex-dev/resend@0.2.10(@typescript/typescript6@6.0.2)(convex-helpers@0.1.136(@typescript/typescript6@6.0.2)(convex@1.51.0(react@19.3.1))(prettier@3.10.1)(react@19.3.1)(zod@4.6.7))(convex@1.51.0(react@19.3.1))(prettier@3.10.1)(react@19.3.1)(zod@4.6.7))(@typescript/typescript6@6.0.2)(convex@1.51.0(react@19.3.1))(prettier@3.10.1)(react@19.3.1)(zod@4.6.7)
+      '@convex-dev/batch-worker':
+        specifier: 0.3.6
+        version: 0.3.6(@typescript/typescript6@6.0.2)(convex@1.51.0(react@19.3.1))(prettier@3.10.1)(react@19.3.1)(zod@4.6.7)
       '@convex-dev/react-query':
         specifier: ^0.1.0
         version: 0.1.0(@tanstack/react-query@5.108.2(@types/react@19.3.0)(react@19.3.1))(convex@1.51.0(react@19.3.1))
       '@convex-dev/resend':
         specifier: ^0.2.10
         version: 0.2.10(@typescript/typescript6@6.0.2)(convex-helpers@0.1.136(@typescript/typescript6@6.0.2)(convex@1.51.0(react@19.3.1))(prettier@3.10.1)(react@19.3.1)(zod@4.6.7))(convex@1.51.0(react@19.3.1))(prettier@3.10.1)(react@19.3.1)(zod@4.6.7)
+      '@convex-dev/workflow':
+        specifier: 0.5.0
+        version: 0.5.0(@convex-dev/workpool@0.4.16(@typescript/typescript6@6.0.2)(convex-helpers@0.1.136(@typescript/typescript6@6.0.2)(convex@1.51.0(react@19.3.1))(prettier@3.10.1)(react@19.3.1)(zod@4.6.7))(convex@1.51.0(react@19.3.1))(prettier@3.10.1)(react@19.3.1)(zod@4.6.7))(convex-helpers@0.1.136(@typescript/typescript6@6.0.2)(convex@1.51.0(react@19.3.1))(prettier@3.10.1)(react@19.3.1)(zod@4.6.7))(convex@1.51.0(react@19.3.1))
+      '@convex-dev/workpool':
+        specifier: 0.4.16
+        version: 0.4.16(@typescript/typescript6@6.0.2)(convex-helpers@0.1.136(@typescript/typescript6@6.0.2)(convex@1.51.0(react@19.3.1))(prettier@3.10.1)(react@19.3.1)(zod@4.6.7))(convex@1.51.0(react@19.3.1))(prettier@3.10.1)(react@19.3.1)(zod@4.6.7)
       '@daypicker/react':
         specifier: ^10.0.2
         version: 10.0.2(@types/react@19.3.0)(react@19.3.1)
@@ -29,6 +38,9 @@ importers:
       '@fontsource-variable/inter':
         specifier: ^5.3.0
         version: 5.3.0
+      '@linqapp/convex':
+        specifier: 0.1.1
+        version: 0.1.1(convex@1.51.0(react@19.3.1))
       '@tanstack/react-query':
         specifier: ^5.101.4
         version: 5.108.2(@types/react@19.3.0)(react@19.3.1)
@@ -262,6 +274,13 @@ packages:
     peerDependencies:
       convex: ^1.43.0
       convex-helpers: ^0.1.106
+
+  '@convex-dev/workflow@0.5.0':
+    resolution: {integrity: sha512-YCkXMh6p/RBQbgZkNGeHjnDLN16EQOQvUR3+CjRsjLR1MAzgtmSSyS2cJx3o0X69jBW24XvbjY6zOTc+OG6heA==}
+    peerDependencies:
+      '@convex-dev/workpool': ^0.4.16
+      convex: ^1.46.0
+      convex-helpers: ^0.1.127
 
   '@convex-dev/workpool@0.4.16':
     resolution: {integrity: sha512-QtR9lEidys0yGtjlbtJzhcC6RGxs4uICnewWZmiolDnUlX4Y8z5v4hGwDzON3TRDIzL3Pd/WPY/jXRKZnQW4Bg==}
@@ -560,6 +579,14 @@ packages:
 
   '@levischuck/tiny-cbor@0.2.11':
     resolution: {integrity: sha512-llBRm4dT4Z89aRsm6u2oEZ8tfwL/2l6BwpZ7JcyieouniDECM5AqNgr/y08zalEIvW3RSK4upYyybDcmjXqAow==}
+
+  '@linqapp/convex@0.1.1':
+    resolution: {integrity: sha512-DyAql23S3dgb5jtnPx4gABgLwOVjMRttHuPSw7H7y/kVRn5ddaqbJcfXB0mbMUB7pUX2bcYTUe86Jf7Eus1MXQ==}
+    peerDependencies:
+      convex: ^1.44.0
+
+  '@linqapp/sdk@0.78.0':
+    resolution: {integrity: sha512-5G8UmnJrrmHc4vxjOQLOqdd9KAqqCMwY2ITdSap0BfMjlHAb613wRnKT498oxaIb6T2j3Fdy8sWJdQtuFt4veA==}
 
   '@napi-rs/wasm-runtime@1.2.6':
     resolution: {integrity: sha512-mRyDmEw9/fCDXCGfL1sbgIw/GUK0PVxRW4YwgPN61F3LQ+fSyoBFarJVzgGyhF6kRzEQZ0FejDqm4WLXSeqQmw==}
@@ -1405,6 +1432,9 @@ packages:
   asn1js@3.1.0:
     resolution: {integrity: sha512-HWYi1THkOqguCiO+vwj09ZkQFD2kKEsejYHAYCtX0D80WVdoDnvRc9IukXX/jeb0T9NRWJnRtqwdbHltnFjwXA==}
     engines: {node: '>=12.0.0'}
+
+  async-channel@0.2.0:
+    resolution: {integrity: sha512-BJyjI/sfKlyijaBt2hbOSxT28xGNtLR0QLzAKO1Hlnv5BULY7sAoYoTPW3lfr1ZIC7y+FxabxO9T8GXpyoofGg==}
 
   babel-dead-code-elimination@1.0.12:
     resolution: {integrity: sha512-GERT7L2TiYcYDtYk1IpD+ASAYXjKbLTDPhBtYj7X1NuRMDTMtAx9kyBenub1Ev41lo91OHCKdmP+egTDmfQ7Ig==}
@@ -2531,6 +2561,13 @@ snapshots:
       - typescript
       - zod
 
+  '@convex-dev/workflow@0.5.0(@convex-dev/workpool@0.4.16(@typescript/typescript6@6.0.2)(convex-helpers@0.1.136(@typescript/typescript6@6.0.2)(convex@1.51.0(react@19.3.1))(prettier@3.10.1)(react@19.3.1)(zod@4.6.7))(convex@1.51.0(react@19.3.1))(prettier@3.10.1)(react@19.3.1)(zod@4.6.7))(convex-helpers@0.1.136(@typescript/typescript6@6.0.2)(convex@1.51.0(react@19.3.1))(prettier@3.10.1)(react@19.3.1)(zod@4.6.7))(convex@1.51.0(react@19.3.1))':
+    dependencies:
+      '@convex-dev/workpool': 0.4.16(@typescript/typescript6@6.0.2)(convex-helpers@0.1.136(@typescript/typescript6@6.0.2)(convex@1.51.0(react@19.3.1))(prettier@3.10.1)(react@19.3.1)(zod@4.6.7))(convex@1.51.0(react@19.3.1))(prettier@3.10.1)(react@19.3.1)(zod@4.6.7)
+      async-channel: 0.2.0
+      convex: 1.51.0(react@19.3.1)
+      convex-helpers: 0.1.136(@typescript/typescript6@6.0.2)(convex@1.51.0(react@19.3.1))(prettier@3.10.1)(react@19.3.1)(zod@4.6.7)
+
   '@convex-dev/workpool@0.4.16(@typescript/typescript6@6.0.2)(convex-helpers@0.1.136(@typescript/typescript6@6.0.2)(convex@1.51.0(react@19.3.1))(prettier@3.10.1)(react@19.3.1)(zod@4.6.7))(convex@1.51.0(react@19.3.1))(prettier@3.10.1)(react@19.3.1)(zod@4.6.7)':
     dependencies:
       '@convex-dev/batch-worker': 0.3.6(@typescript/typescript6@6.0.2)(convex@1.51.0(react@19.3.1))(prettier@3.10.1)(react@19.3.1)(zod@4.6.7)
@@ -2750,6 +2787,16 @@ snapshots:
   '@keyv/serialize@1.1.1': {}
 
   '@levischuck/tiny-cbor@0.2.11': {}
+
+  '@linqapp/convex@0.1.1(convex@1.51.0(react@19.3.1))':
+    dependencies:
+      '@linqapp/sdk': 0.78.0
+      convex: 1.51.0(react@19.3.1)
+      standardwebhooks: 1.1.1
+
+  '@linqapp/sdk@0.78.0':
+    dependencies:
+      standardwebhooks: 1.1.1
 
   '@napi-rs/wasm-runtime@1.2.6(@emnapi/core@2.0.0-beta.2)(@emnapi/runtime@2.0.0-beta.2)':
     dependencies:
@@ -3618,6 +3665,8 @@ snapshots:
       pvtsutils: 1.3.6
       pvutils: 1.2.0
       tslib: 2.9.1
+
+  async-channel@0.2.0: {}
 
   babel-dead-code-elimination@1.0.12:
     dependencies:
