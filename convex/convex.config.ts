@@ -32,6 +32,8 @@ const app = defineApp({
     LINQ_API_KEY: v.string().optional(),
     LINQ_BASE_URL: v.string().optional(), // e.g. a Linq sandbox origin
     LINQ_WEBHOOK_SECRET: v.string().optional(), // read by the app's webhook route, not the component
+    // The Linq line people text, in E.164 (+15551234567). Shown on each site.
+    LINQ_LINE_NUMBER: v.string().optional(),
   },
 });
 

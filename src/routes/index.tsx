@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { Link, createFileRoute } from '@tanstack/react-router'
 import {
   AuthLoading,
   Authenticated,
@@ -305,6 +305,7 @@ function Welcome() {
         </CardTitle>
       </CardHeader>
       <CardPanel className="flex flex-col gap-4">
+        <Button render={<Link to="/sites" />}>Your sites</Button>
         <Passkeys />
         <Button variant="outline" onClick={() => void signOut()}>
           Sign out
