@@ -67,6 +67,8 @@ These apply to everyone working in this repo, human or agent.
 
 - Build from `src/components/ui/` first. Add new primitives from the `@coss` registry configured in `components.json` instead of writing them by hand.
 - Style with Tailwind utilities and `cn()` from `~/lib/utils`. Design tokens live in `src/styles/app.css`.
+- Forms use TanStack Form (`@tanstack/react-form`): field state, validation and submit state come from `useForm`, not hand-rolled `useState` or `FormData`. Show the backend's `ConvexError` message below the form.
+- Tabular data uses TanStack Table v9 (`@tanstack/react-table`, `useTable`) rendered with the `~/components/ui/table` primitives. Keep `features` and `columns` at module scope.
 - Icons come from `lucide-react`.
 - Sans-serif font stacks end with `system-ui, -apple-system, "Segoe UI", Roboto, sans-serif`. Never fall back to the browser's default serif.
 - Don't add `disabled` to buttons unless the logic requires it.
