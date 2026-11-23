@@ -1,9 +1,9 @@
-import { Link, createFileRoute, useNavigate } from '@tanstack/react-router'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useMutation, useQuery } from 'convex/react'
 import { api } from '../../convex/_generated/api'
 import { RequireAuth } from '~/components/require-auth'
 import { SiteForm } from '~/components/site-form'
-import { Badge } from '~/components/ui/badge'
+import { SitesTable } from '~/components/sites-table'
 import {
   Card,
   CardDescription,
@@ -59,22 +59,7 @@ function Sites() {
             </EmptyHeader>
           </Empty>
         ) : (
-          sites.map((site) => (
-            <Link
-              key={site._id}
-              to="/sites/$siteId"
-              params={{ siteId: site._id }}
-              className="rounded-xl border bg-card p-4 transition-colors hover:bg-accent"
-            >
-              <div className="flex items-center justify-between gap-3">
-                <span className="font-medium">{site.name}</span>
-                <Badge variant="outline">{site.code}</Badge>
-              </div>
-              <p className="truncate text-muted-foreground text-sm">
-                {site.url}
-              </p>
-            </Link>
-          ))
+          <SitesTable sites={sites} />
         )}
       </section>
 

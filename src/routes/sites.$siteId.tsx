@@ -1,3 +1,4 @@
+import { useForm } from '@tanstack/react-form'
 import { Link, createFileRoute } from '@tanstack/react-router'
 import { useMutation, useQuery } from 'convex/react'
 import { ConvexError } from 'convex/values'
@@ -5,7 +6,7 @@ import { useState } from 'react'
 import { api } from '../../convex/_generated/api'
 import type { Id } from '../../convex/_generated/dataModel'
 import { RequireAuth } from '~/components/require-auth'
-import { SiteForm } from '~/components/site-form'
+import { FieldErrors, SiteForm } from '~/components/site-form'
 import { Badge } from '~/components/ui/badge'
 import { Button } from '~/components/ui/button'
 import {
@@ -21,6 +22,7 @@ import {
   EmptyHeader,
   EmptyTitle,
 } from '~/components/ui/empty'
+import { Field } from '~/components/ui/field'
 import { Textarea } from '~/components/ui/textarea'
 import { cn } from '~/lib/utils'
 
@@ -180,9 +182,6 @@ function Conversations({ siteId }: { siteId: Id<'sites'> }) {
 
 function Thread({ threadId }: { threadId: Id<'threads'> }) {
   const messages = useQuery(api.api.feedback.listMessages, { threadId })
-  const reply = useMutation(api.api.feedback.reply)
-  const [pending, setPending] = useState(false)
-  const [error, setError] = useState<string | null>(null)
 
   return (
     <Card>
@@ -213,42 +212,80 @@ function Thread({ threadId }: { threadId: Id<'threads'> }) {
             ))}
           </ol>
         )}
-        <form
-          className="flex flex-col gap-2"
-          onSubmit={(e) => {
-            e.preventDefault()
-            const form = e.currentTarget
-            const text = String(new FormData(form).get('text'))
-            setPending(true)
-            setError(null)
-            reply({ threadId, text })
-              .then(() => form.reset())
-              .catch((err: unknown) => {
-                setError(
-                  err instanceof ConvexError
-                    ? String(err.data)
-                    : 'Could not send. Try again.',
-                )
-              })
-              .finally(() => setPending(false))
-          }}
-        >
-          <Textarea
-            name="text"
-            placeholder="Reply by text…"
-            maxLength={1000}
-            required
-          />
-          {error && (
-            <p role="alert" className="text-destructive-foreground text-sm">
-              {error}
-            </p>
-          )}
-          <Button type="submit" className="w-fit self-end" loading={pending}>
-            Send reply
-          </Button>
-        </form>
+        <ReplyForm threadId={threadId} />
       </CardPanel>
     </Card>
+  )
+}
+
+const maxReplyLength = 1000
+
+function ReplyForm({ threadId }: { threadId: Id<'threads'> }) {
+  const reply = useMutation(api.api.feedback.reply)
+  const [serverError, setServerError] = useState<string | null>(null)
+  const form = useForm({
+    defaultValues: { text: '' },
+    onSubmit: async ({ value, formApi }) => {
+      setServerError(null)
+      try {
+        await reply({ threadId, text: value.text })
+        formApi.reset()
+      } catch (err) {
+        setServerError(
+          err instanceof ConvexError
+            ? String(err.data)
+            : 'Could not send. Try again.',
+        )
+      }
+    },
+  })
+
+  return (
+    <form
+      className="flex flex-col gap-2"
+      onSubmit={(e) => {
+        e.preventDefault()
+        void form.handleSubmit()
+      }}
+    >
+      <form.Field
+        name="text"
+        validators={{
+          onSubmit: ({ value }) =>
+            value.trim() ? undefined : 'Write a reply first.',
+        }}
+      >
+        {(field) => (
+          <Field>
+            <Textarea
+              name={field.name}
+              aria-label="Reply"
+              placeholder="Reply by text…"
+              value={field.state.value}
+              onChange={(e) => field.handleChange(e.target.value)}
+              onBlur={field.handleBlur}
+              maxLength={maxReplyLength}
+            />
+            <FieldErrors errors={field.state.meta.errors} />
+          </Field>
+        )}
+      </form.Field>
+      {serverError && (
+        <p role="alert" className="text-destructive-foreground text-sm">
+          {serverError}
+        </p>
+      )}
+      <form.Subscribe selector={(state) => state.isSubmitting}>
+        {(isSubmitting) => (
+          <Button
+            type="submit"
+            className="w-fit self-end"
+            loading={isSubmitting}
+          >
+            Send reply
+          </Button>
+        )}
+      </form.Subscribe>
+    </form>
   )
 }
