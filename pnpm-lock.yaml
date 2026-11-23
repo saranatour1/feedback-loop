@@ -53,6 +53,9 @@ importers:
       convex:
         specifier: ^1.51.0
         version: 1.51.0(react@19.3.1)
+      convex-helpers:
+        specifier: 0.1.136
+        version: 0.1.136(@typescript/typescript6@6.0.2)(convex@1.51.0(react@19.3.1))(prettier@3.10.1)(react@19.3.1)(zod@4.6.7)
       lucide-react:
         specifier: ^1.78.0
         version: 1.78.0(@types/react@19.3.0)(react@19.3.1)

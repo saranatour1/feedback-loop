@@ -43,9 +43,14 @@ These apply to everyone working in this repo, human or agent.
 ### Convex backend
 
 - Read `convex/_generated/ai/guidelines.md` before writing Convex code. Where it disagrees with this list, it wins.
+- Layout:
+  - `convex/api/<name>.ts`: thin files that re-export a feature's functions. These are the only files that register endpoints (`api.api.<name>.*`).
+  - `convex/features/<name>/`: `models.ts` (tables), `validators.ts`, `public.ts` and `internal.ts` (functions bundled into `publicApi` and `internalApi` objects, never exported one by one), `index.ts` (merges them).
+  - `convex/lib/`: shared helpers, such as the function wrappers in `functions.ts`.
+  - `convex/schema.ts`: builds the schema from each feature's `models.ts`.
 - Every function declares `args` and `returns` validators.
 - Only functions the client calls are public (`query`, `mutation`, `action`). Everything else is `internalQuery`, `internalMutation` or `internalAction`.
-- Get the caller from `getAuthUserId(ctx)`. Never accept a user ID as an argument for authorization, and check ownership of every document a caller reads or writes by ID.
+- Functions that need a signed-in user are built with `authedQuery` or `authedMutation` from `convex/lib/functions.ts` and read `ctx.userId`. Call `getAuthUserId(ctx)` directly only where signed-out callers are allowed. Never accept a user ID as an argument for authorization, and check ownership of every document a caller reads or writes by ID.
 - Component functions (auth, Resend) are called from app functions, never directly from the client.
 - Queries use `.withIndex()` and are bounded with `.take(n)` or pagination. No `.collect()` on tables that grow, and no `Date.now()` inside queries.
 - Index names list their fields in order: `by_field1_and_field2`.
