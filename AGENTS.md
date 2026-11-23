@@ -57,6 +57,11 @@ These apply to everyone working in this repo, human or agent.
 - Keep the schema minimal: three app tables or fewer by default. Justify anything beyond that in the PR.
 - Declare env vars in `convex/convex.config.ts` under `env` and read them from `env` in `./_generated/server`, not `process.env`. Set values with `npx convex env set`; they never go in code or git.
 - Actions that need Node built-ins go in their own file starting with `"use node";`.
+- Dev deployments only need password and passkey sign-in. `RESEND_API_KEY` and the six OAuth vars are optional, so leave them unset. The sign-in page hides magic-link sign-in and any provider that isn't configured, based on `api.api.auth.signInMethods`. If Convex refuses to deploy because an auth component needs a value, set that provider's vars to `unset`, which also counts as not configured:
+
+  ```bash
+  for p in GITHUB GOOGLE DISCORD; do npx convex env set AUTH_${p}_CLIENT_ID unset; npx convex env set AUTH_${p}_CLIENT_SECRET unset; done
+  ```
 
 ### UI
 

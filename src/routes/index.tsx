@@ -23,6 +23,7 @@ import { useSignInWithGoogle } from '@convex-dev/auth/methods/google/react'
 import { useSignInWithDiscord } from '@convex-dev/auth/methods/discord/react'
 import { useState } from 'react'
 import { api } from '../../convex/_generated/api'
+import type { FunctionReturnType } from 'convex/server'
 import { authErrorMessage, type AuthError } from '~/lib/auth-errors'
 import { Button } from '~/components/ui/button'
 import { Input } from '~/components/ui/input'
@@ -74,8 +75,16 @@ function ErrorText({ error }: { error: AuthError | null }) {
   )
 }
 
+type SignInMethods = FunctionReturnType<typeof api.api.auth.signInMethods>
+
 function SignIn() {
   const { flowError } = useOauth()
+  // Dev deployments often have no Resend key or OAuth apps; only offer what works.
+  const methods = useQuery(api.api.auth.signInMethods)
+  if (methods === undefined) {
+    return <p className="text-muted-foreground">Loading…</p>
+  }
+  const hasOauth = methods.github || methods.google || methods.discord
   return (
     <Card className="w-full max-w-sm">
       <CardHeader>
@@ -83,18 +92,26 @@ function SignIn() {
         <CardDescription>Choose how you want to continue.</CardDescription>
       </CardHeader>
       <CardPanel className="flex flex-col gap-4">
-        <OauthButtons />
-        <ErrorText error={flowError} />
-        <Separator />
-        <Tabs defaultValue="email">
+        {hasOauth && (
+          <>
+            <OauthButtons methods={methods} />
+            <ErrorText error={flowError} />
+            <Separator />
+          </>
+        )}
+        <Tabs defaultValue={methods.emailMagicLink ? 'email' : 'password'}>
           <TabsList className="w-full">
-            <TabsTab value="email">Email link</TabsTab>
+            {methods.emailMagicLink && (
+              <TabsTab value="email">Email link</TabsTab>
+            )}
             <TabsTab value="passkey">Passkey</TabsTab>
             <TabsTab value="password">Password</TabsTab>
           </TabsList>
-          <TabsPanel value="email" className="pt-4">
-            <MagicLinkForm />
-          </TabsPanel>
+          {methods.emailMagicLink && (
+            <TabsPanel value="email" className="pt-4">
+              <MagicLinkForm />
+            </TabsPanel>
+          )}
           <TabsPanel value="passkey" className="pt-4">
             <PasskeyForm />
           </TabsPanel>
@@ -107,24 +124,28 @@ function SignIn() {
   )
 }
 
-function OauthButtons() {
+function OauthButtons({ methods }: { methods: SignInMethods }) {
+  // Every hook runs on each render; only configured providers get a button.
   const providers = [
-    ['GitHub', useSignInWithGithub(api.api.auth).signIn],
-    ['Google', useSignInWithGoogle(api.api.auth).signIn],
-    ['Discord', useSignInWithDiscord(api.api.auth).signIn],
+    ['GitHub', methods.github, useSignInWithGithub(api.api.auth).signIn],
+    ['Google', methods.google, useSignInWithGoogle(api.api.auth).signIn],
+    ['Discord', methods.discord, useSignInWithDiscord(api.api.auth).signIn],
   ] as const
   const { error, report } = useAuthError()
   return (
     <div className="flex flex-col gap-2">
-      {providers.map(([name, signIn]) => (
-        <Button
-          key={name}
-          variant="outline"
-          onClick={() => void signIn().then(report)}
-        >
-          Continue with {name}
-        </Button>
-      ))}
+      {providers.map(
+        ([name, enabled, signIn]) =>
+          enabled && (
+            <Button
+              key={name}
+              variant="outline"
+              onClick={() => void signIn().then(report)}
+            >
+              Continue with {name}
+            </Button>
+          ),
+      )}
       <ErrorText error={error} />
     </div>
   )
