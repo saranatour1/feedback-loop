@@ -25,4 +25,5 @@ export const {
   completeSignInWithGoogle,
   startSignInWithDiscord,
   completeSignInWithDiscord,
+  signInMethods,
 } = authApi

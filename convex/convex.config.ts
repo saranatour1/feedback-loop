@@ -19,7 +19,7 @@ const app = defineApp({
     SITE_URL: v.optional(v.string()),
     PASSKEY_RP_ID: v.optional(v.string()),
     PASSKEY_ORIGIN: v.optional(v.string()), // comma-separated for several origins
-    RESEND_API_KEY: v.string(),
+    RESEND_API_KEY: v.optional(v.string()), // unset in dev: magic-link sign-in is hidden
     AUTH_EMAIL_FROM: v.optional(v.string()),
     AUTH_GITHUB_CLIENT_ID: v.string(),
     AUTH_GITHUB_CLIENT_SECRET: v.string(),
