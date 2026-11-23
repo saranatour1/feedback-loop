@@ -16,21 +16,22 @@ import linq from "@linqapp/convex/convex.config.js";
 const app = defineApp({
   env: {
     // Frontend origin: OAuth redirect allowlist, magic-link landing page, passkey origin.
-    SITE_URL: v.optional(v.string()),
-    PASSKEY_RP_ID: v.optional(v.string()),
-    PASSKEY_ORIGIN: v.optional(v.string()), // comma-separated for several origins
-    RESEND_API_KEY: v.optional(v.string()), // unset in dev: magic-link sign-in is hidden
-    AUTH_EMAIL_FROM: v.optional(v.string()),
-    AUTH_GITHUB_CLIENT_ID: v.string(),
-    AUTH_GITHUB_CLIENT_SECRET: v.string(),
-    AUTH_GOOGLE_CLIENT_ID: v.string(),
-    AUTH_GOOGLE_CLIENT_SECRET: v.string(),
-    AUTH_DISCORD_CLIENT_ID: v.string(),
-    AUTH_DISCORD_CLIENT_SECRET: v.string(),
+    SITE_URL: v.string().optional(),
+    PASSKEY_RP_ID: v.string().optional(),
+    PASSKEY_ORIGIN: v.string().optional(), // comma-separated for several origins
+    RESEND_API_KEY: v.string().optional(), // unset in dev: magic-link sign-in is hidden
+    AUTH_EMAIL_FROM: v.string().optional(),
+    // OAuth apps: unset in dev hides that provider on the sign-in page.
+    AUTH_GITHUB_CLIENT_ID: v.string().optional(),
+    AUTH_GITHUB_CLIENT_SECRET: v.string().optional(),
+    AUTH_GOOGLE_CLIENT_ID: v.string().optional(),
+    AUTH_GOOGLE_CLIENT_SECRET: v.string().optional(),
+    AUTH_DISCORD_CLIENT_ID: v.string().optional(),
+    AUTH_DISCORD_CLIENT_SECRET: v.string().optional(),
     // Linq (iMessage, RCS, SMS). Optional until messaging is wired up.
-    LINQ_API_KEY: v.optional(v.string()),
-    LINQ_BASE_URL: v.optional(v.string()), // e.g. a Linq sandbox origin
-    LINQ_WEBHOOK_SECRET: v.optional(v.string()), // read by the app's webhook route, not the component
+    LINQ_API_KEY: v.string().optional(),
+    LINQ_BASE_URL: v.string().optional(), // e.g. a Linq sandbox origin
+    LINQ_WEBHOOK_SECRET: v.string().optional(), // read by the app's webhook route, not the component
   },
 });
 

@@ -1,7 +1,7 @@
 import { v } from 'convex/values'
 
-// The auth components require their OAuth env vars, so a dev deployment that
-// doesn't use a provider sets them to this value instead.
+// OAuth env vars are optional; leaving one unset means "not configured".
+// This placeholder means the same, for a deployment that must set a value.
 export const UNSET = 'unset'
 
 export const vSignInMethods = v.object({
