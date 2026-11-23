@@ -109,9 +109,9 @@ function SignIn() {
 
 function OauthButtons() {
   const providers = [
-    ['GitHub', useSignInWithGithub(api.auth).signIn],
-    ['Google', useSignInWithGoogle(api.auth).signIn],
-    ['Discord', useSignInWithDiscord(api.auth).signIn],
+    ['GitHub', useSignInWithGithub(api.api.auth).signIn],
+    ['Google', useSignInWithGoogle(api.api.auth).signIn],
+    ['Discord', useSignInWithDiscord(api.api.auth).signIn],
   ] as const
   const { error, report } = useAuthError()
   return (
@@ -131,7 +131,7 @@ function OauthButtons() {
 }
 
 function MagicLinkForm() {
-  const { sendMagicLink, pending } = useSendEmailMagicLink(api.auth)
+  const { sendMagicLink, pending } = useSendEmailMagicLink(api.api.auth)
   const { error, report } = useAuthError()
   const [sentTo, setSentTo] = useState<string | null>(null)
   if (sentTo)
@@ -155,7 +155,13 @@ function MagicLinkForm() {
     >
       <Field>
         <FieldLabel>Email</FieldLabel>
-        <Input name="email" type="email" autoComplete="email" required disabled={pending} />
+        <Input
+          name="email"
+          type="email"
+          autoComplete="email"
+          required
+          disabled={pending}
+        />
       </Field>
       <ErrorText error={error} />
       <Button type="submit" disabled={pending}>
@@ -166,7 +172,9 @@ function MagicLinkForm() {
 }
 
 function PasskeyForm() {
-  const { signIn, pending, autofill } = useSignInWithUsernamePasskey(api.auth)
+  const { signIn, pending, autofill } = useSignInWithUsernamePasskey(
+    api.api.auth,
+  )
   const { error, report } = useAuthError()
   return (
     <form
@@ -198,8 +206,12 @@ function PasskeyForm() {
 }
 
 function PasswordForm() {
-  const { signIn, pending: signInPending } = useSignInWithUsernamePassword(api.auth)
-  const { signUp, pending: signUpPending } = useSignUpWithUsernamePassword(api.auth)
+  const { signIn, pending: signInPending } = useSignInWithUsernamePassword(
+    api.api.auth,
+  )
+  const { signUp, pending: signUpPending } = useSignUpWithUsernamePassword(
+    api.api.auth,
+  )
   const pending = signInPending || signUpPending
   const [flow, setFlow] = useState<'signIn' | 'signUp'>('signIn')
   const { error, setError, report } = useAuthError()
@@ -218,7 +230,12 @@ function PasswordForm() {
     >
       <Field>
         <FieldLabel>Username</FieldLabel>
-        <Input name="username" autoComplete="username" required disabled={pending} />
+        <Input
+          name="username"
+          autoComplete="username"
+          required
+          disabled={pending}
+        />
       </Field>
       <Field>
         <FieldLabel>Password</FieldLabel>
@@ -226,7 +243,9 @@ function PasswordForm() {
           name="password"
           type="password"
           autoComplete={flow === 'signIn' ? 'current-password' : 'new-password'}
-          minLength={flow === 'signUp' ? DEFAULT_MIN_PASSWORD_LENGTH : undefined}
+          minLength={
+            flow === 'signUp' ? DEFAULT_MIN_PASSWORD_LENGTH : undefined
+          }
           required
           disabled={pending}
         />
@@ -243,14 +262,16 @@ function PasswordForm() {
           setError(null)
         }}
       >
-        {flow === 'signIn' ? "Don't have an account? Sign up" : 'Have an account? Sign in'}
+        {flow === 'signIn'
+          ? "Don't have an account? Sign up"
+          : 'Have an account? Sign in'}
       </Button>
     </form>
   )
 }
 
 function Welcome() {
-  const viewer = useQuery(api.users.viewer)
+  const viewer = useQuery(api.api.users.viewer)
   const { signOut } = useAuthActions()
   return (
     <Card className="w-full max-w-sm">
@@ -275,16 +296,19 @@ function Welcome() {
 // Convex Auth 2.1 only lets a user who already has a passkey add more,
 // so this section is shown to passkey accounts only.
 function Passkeys() {
-  const list = useQuery(api.auth.listPasskeys)
-  const { addPasskey, pending: adding } = useAddPasskey(api.auth)
-  const { removePasskey, pending: removing } = useRemovePasskey(api.auth)
+  const list = useQuery(api.api.auth.listPasskeys)
+  const { addPasskey, pending: adding } = useAddPasskey(api.api.auth)
+  const { removePasskey, pending: removing } = useRemovePasskey(api.api.auth)
   const { error, report } = useAuthError()
   if (!list?.success || list.passkeys.length === 0) return null
   return (
     <div className="flex flex-col gap-2">
       <p className="font-medium text-sm">Passkeys</p>
       {list.passkeys.map((p) => (
-        <div key={p.passkeyId} className="flex items-center justify-between text-sm">
+        <div
+          key={p.passkeyId}
+          className="flex items-center justify-between text-sm"
+        >
           <span>
             {p.name ?? 'Passkey'} · {new Date(p.createdAt).toLocaleDateString()}
           </span>
@@ -299,7 +323,11 @@ function Passkeys() {
         </div>
       ))}
       <ErrorText error={error} />
-      <Button variant="secondary" disabled={adding} onClick={() => void addPasskey().then(report)}>
+      <Button
+        variant="secondary"
+        disabled={adding}
+        onClick={() => void addPasskey().then(report)}
+      >
         Add another passkey
       </Button>
     </div>

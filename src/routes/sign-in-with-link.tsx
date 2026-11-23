@@ -13,7 +13,7 @@ export const Route = createFileRoute('/sign-in-with-link')({
 
 function SignInWithLink() {
   const { code } = Route.useSearch()
-  const state = useSignInWithEmailMagicLink(api.auth, { emailCode: code })
+  const state = useSignInWithEmailMagicLink(api.api.auth, { emailCode: code })
   if (state.status === 'complete') return <Navigate to="/" />
   return (
     <main className="flex min-h-svh flex-col items-center justify-center gap-4 p-8">

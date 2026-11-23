@@ -10,17 +10,11 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as AnotherPageRouteImport } from './routes/anotherPage'
 import { Route as SignInWithLinkRouteImport } from './routes/sign-in-with-link'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AnotherPageRoute = AnotherPageRouteImport.update({
-  id: '/anotherPage',
-  path: '/anotherPage',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SignInWithLinkRoute = SignInWithLinkRouteImport.update({
@@ -31,31 +25,27 @@ const SignInWithLinkRoute = SignInWithLinkRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/anotherPage': typeof AnotherPageRoute
   '/sign-in-with-link': typeof SignInWithLinkRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/anotherPage': typeof AnotherPageRoute
   '/sign-in-with-link': typeof SignInWithLinkRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/anotherPage': typeof AnotherPageRoute
   '/sign-in-with-link': typeof SignInWithLinkRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/anotherPage' | '/sign-in-with-link'
+  fullPaths: '/' | '/sign-in-with-link'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/anotherPage' | '/sign-in-with-link'
-  id: '__root__' | '/' | '/anotherPage' | '/sign-in-with-link'
+  to: '/' | '/sign-in-with-link'
+  id: '__root__' | '/' | '/sign-in-with-link'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AnotherPageRoute: typeof AnotherPageRoute
   SignInWithLinkRoute: typeof SignInWithLinkRoute
 }
 
@@ -66,13 +56,6 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/anotherPage': {
-      id: '/anotherPage'
-      path: '/anotherPage'
-      fullPath: '/anotherPage'
-      preLoaderRoute: typeof AnotherPageRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sign-in-with-link': {
@@ -87,7 +70,6 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AnotherPageRoute: AnotherPageRoute,
   SignInWithLinkRoute: SignInWithLinkRoute,
 }
 export const routeTree = rootRouteImport

@@ -1,0 +1,28 @@
+import { authApi } from '../features/auth'
+
+export const {
+  signOut,
+  refreshSession,
+  isAuthenticated,
+  signUpWithUsernamePassword,
+  signInWithUsernamePassword,
+  startSignInWithUsernamePasskey,
+  startAutofillSignInWithUsernamePasskey,
+  finishSignUpWithUsernamePasskey,
+  finishSignInWithUsernamePasskey,
+  listPasskeys,
+  renamePasskey,
+  startAddPasskey,
+  verifyAddPasskey,
+  finishAddPasskey,
+  startRemovePasskey,
+  finishRemovePasskey,
+  sendEmailMagicLink,
+  signInWithEmailMagicLink,
+  startSignInWithGithub,
+  completeSignInWithGithub,
+  startSignInWithGoogle,
+  completeSignInWithGoogle,
+  startSignInWithDiscord,
+  completeSignInWithDiscord,
+} = authApi
