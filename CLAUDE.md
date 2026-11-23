@@ -77,7 +77,11 @@ These apply to everyone working in this repo, human or agent.
 ### Git and workflow
 
 - Never push to `main`. One feature = one branch = one PR.
-- Branch names are short kebab-case with a type prefix: `feat/`, `fix/`, `chore/`.
-- Commit subjects are imperative and under 72 characters (`Add feedback list query`). Use the body to explain why.
+- Follow [Conventional Commits 1.0.0](https://www.conventionalcommits.org/en/v1.0.0/) for commit messages, PR titles and branch names.
+- Types: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert`. Scopes are optional and name the area, such as `convex`, `ui`, `auth` or `deps`.
+- Commit messages: `<type>(<scope>): <description>`, imperative, lowercase, no trailing period, under 72 characters (`feat(convex): add feedback list query`). Use the body to explain why. Mark breaking changes with `!` after the type or scope and a `BREAKING CHANGE:` footer.
+- PR titles use the same format as a commit subject, since they become the squash-merge commit.
+- PR descriptions have a `## Summary` (what and why), a `## Changes` list grouped by commit type, a `## Testing` list of what was run and its result, and a `## Breaking changes` section when the title has `!`.
+- Branch names: `<type>/<short-kebab-description>`, using the same types (`feat/feedback-list`, `fix/magic-link-redirect`).
 - Never commit secrets: no `.env` file of any name, deploy keys or OAuth secrets. App secrets live in the Convex deployment's env.
 - Don't create git worktrees without asking.
